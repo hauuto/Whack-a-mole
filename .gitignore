@@ -1,0 +1,8 @@
+#ignore .idea
+
+.idea/
+
+
+#ignore .rar extension
+
+*.rar
