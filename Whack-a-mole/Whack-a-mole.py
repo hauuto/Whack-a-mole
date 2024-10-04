@@ -9,9 +9,6 @@ from pygame.locals import *
 from settings import *
 from sprites import *
 
-
-
-
 pygame.init()
 
 # Set up the display
@@ -22,7 +19,7 @@ mole = Mole()
 mole2 = Mole()
 shovel = Shovel()
 
-all_sprites = Group(mole,shovel)
+all_sprites = Group(mole, shovel)
 screen.fill(Color("white"))
 all_sprites.draw(screen)
 display.update()
@@ -47,9 +44,3 @@ while True:
     all_sprites.update()
     all_sprites.draw(screen)
     display.update()
-
-
-
-
-
-
