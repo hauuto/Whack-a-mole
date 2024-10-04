@@ -6,3 +6,8 @@
 #ignore .rar extension
 
 *.rar
+
+__pycache__/
+*.pyc
+.vscode/
+.env

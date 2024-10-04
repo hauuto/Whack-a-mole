@@ -39,7 +39,6 @@ class Shovel(Sprite):
 
 #sound setting
 whack = Sound("hit.wav")
-background = Sound("background.m4a")
 
 #main
 
@@ -67,7 +66,6 @@ all_sprites.draw(screen)
 display.update()
 
 while True:
-    background.play.set_volume(0.3)
     ev = event.wait()
     if (ev.type == KEYDOWN and ev.key == K_ESCAPE) or ev.type == QUIT:
         pygame.quit()
