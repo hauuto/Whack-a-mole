@@ -15,11 +15,12 @@ pygame.init()
 screen = display.set_mode(screen_size)
 display.set_caption("Whack-a-mole")
 
-mole = Mole()
+mole1 = Mole(color=(255,255,255))
 shovel = Shovel()
+mole2 = Mole(color=(255,255,200))
 
-all_sprites = Group(mole, shovel)
-moles = [mole]
+moles = [mole1]
+all_sprites = Group(moles, shovel)
 screen.fill(Color("white"))
 all_sprites.draw(screen)
 display.update()
@@ -30,15 +31,16 @@ mouse.set_visible(False)
 
 
 #move mole
+delay = 1000
 MOVE_MOLE = USEREVENT + 1
-time.set_timer(MOVE_MOLE, 1000)
+time.set_timer(MOVE_MOLE, delay)
 
 
 #count hit
 hits = 0
 
 #text
-f = font.Font(None, 25)
+f = font.Font(None, screen_width*screen_height//10000)
 
 # Game loop
 while True:
@@ -48,21 +50,26 @@ while True:
         sys.exit()
 
     if (ev.type == MOUSEBUTTONDOWN):
-        if shovel.rect.colliderect(mole.rect):
-            mole.flee()
-            hit_sound.play()
-            hits+=1
-            if hits % 5 ==0:
-                new_mole = Mole()
-                moles.append(new_mole)
-                all_sprites.add(new_mole)
+        for mole in moles:
+            if shovel.rect.colliderect(mole.rect):
+                mole.flee(moles)
+                hit_sound.play()
+                hits += 1
+                time.set_timer(MOVE_MOLE, delay)
+                if hits % 20 ==0:
+                    new_mole = Mole(color=(randint(0,255),randint(0,255),randint(0,255)))
+                    moles.append(new_mole)
+                    all_sprites.add(new_mole)
 
     if (ev.type == MOVE_MOLE):
         for mole in moles:
-            mole.flee()
+            mole.flee(moles)
 
 
     screen.fill(Color("white"))
+    screen.blit(f.render("Hits = " + str(hits), False, (0,0,0)), (screen_width//2, 0))
+
     all_sprites.update()
     all_sprites.draw(screen)
+    screen.blit(shovel.image, shovel.rect)
     display.update()
