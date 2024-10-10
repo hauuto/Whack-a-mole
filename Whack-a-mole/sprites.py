@@ -12,8 +12,8 @@ class Mole(Sprite):
 
 
     def flee(self):
-        randX = randint(0, screen_width)
-        randY = randint(0, screen_height)
+        randX = randint(100, screen_width-100)
+        randY = randint(100, screen_height-100)
         self.rect.center = (randX,randY)
 
 
