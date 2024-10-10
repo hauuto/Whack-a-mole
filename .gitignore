@@ -12,5 +12,3 @@ __pycache__/
 .vscode/
 .env
 
-#ignore dir ASSIGNMENT
-ASSIGNMENT/

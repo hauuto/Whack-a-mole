@@ -14,3 +14,8 @@ screen_size = (screen_width, screen_height)
 mixer.init()
 # Load sounds
 hit_sound = Sound("../assets/sounds/hit.wav")
+
+
+#Font settings
+font.init()
+# Load fonts

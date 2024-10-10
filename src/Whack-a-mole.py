@@ -1,6 +1,5 @@
 #header
-import sys
-import pygame
+import sys, pygame
 
 from pygame import *
 from pygame.sprite import *
@@ -41,7 +40,7 @@ hits = 0
 
 #text
 f = font.Font(None, screen_width*screen_height//10000)
-
+green = (121,134,69)
 # Game loop
 while True:
     ev = event.wait()
@@ -55,9 +54,10 @@ while True:
                 mole.flee(moles)
                 hit_sound.play()
                 hits += 1
-                time.set_timer(MOVE_MOLE, delay)
+
                 if hits % 20 ==0:
-                    new_mole = Mole(color=(randint(0,255),randint(0,255),randint(0,255)))
+                    time.set_timer(MOVE_MOLE, delay)
+                    new_mole = Mole(color=(randint(100,255),randint(100,255),randint(100,255)))
                     moles.append(new_mole)
                     all_sprites.add(new_mole)
 
@@ -66,7 +66,7 @@ while True:
             mole.flee(moles)
 
 
-    screen.fill(Color("white"))
+    screen.fill(Color(green))
     screen.blit(f.render("Hits = " + str(hits), False, (0,0,0)), (screen_width//2, 0))
 
     all_sprites.update()
