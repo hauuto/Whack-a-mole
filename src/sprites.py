@@ -38,6 +38,10 @@ class Shovel(Sprite):
         self.image = image.load("../assets/images/shovel.gif").convert_alpha()
         self.rect = self.image.get_rect()
 
+    def update(self):
+        self.rect.center = mouse.get_pos()
+        self.rect.move_ip(0, 10)
+
 
 class Log(Sprite):
     def __init__(self):
@@ -56,3 +60,28 @@ class Mountain(Sprite):
         self.image = pygame.transform.scale(self.image, (screen_width//3.5, screen_height//4))
         self.rect = self.image.get_rect()
         self.rect.center = (1/6*screen_width, 1.7/3*screen_height)
+
+class Explosion(Sprite):
+    def __init__(self, center):
+        Sprite.__init__(self)
+        self.image = image.load("../assets/images/explosion.png").convert_alpha()
+        self.image = pygame.transform.scale(self.image, (screen_width//10, screen_height//10))
+        self.rect = self.image.get_rect()
+        self.rect.center = center
+        self.frame = 0
+        self.last_update = time.get_ticks()
+        self.frame_rate = 50
+
+    def update(self):
+        now = time.get_ticks()
+        if now - self.last_update > self.frame_rate:
+            self.last_update = now
+            self.frame += 1
+            if self.frame == 6:
+                self.kill()
+            else:
+                center = self.rect.center
+                self.image = image.load("../assets/images/explosion.png".format(self.frame)).convert_alpha()
+                self.image = pygame.transform.scale(self.image, (screen_width//10, screen_height//10))
+                self.rect = self.image.get_rect()
+                self.rect.center = center

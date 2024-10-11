@@ -43,27 +43,30 @@ f = font.Font(None, screen_width*screen_height//10000)
 green = (121,134,69)
 # Game loop
 while True:
-    ev = event.wait()
-    if (ev.type == QUIT) or (ev.type == KEYDOWN and ev.key == K_ESCAPE):
-        pygame.quit()
-        sys.exit()
+    for ev in event.get():
+        if (ev.type == QUIT) or (ev.type == KEYDOWN and ev.key == K_ESCAPE):
+            pygame.quit()
+            sys.exit()
 
-    if (ev.type == MOUSEBUTTONDOWN):
-        for mole in moles:
-            if shovel.rect.colliderect(mole.rect):
+        if (ev.type == MOUSEBUTTONDOWN):
+            for mole in moles:
+                if shovel.rect.colliderect(mole.rect):
+                    mole.flee(moles)
+                    hit_sound.play()
+                    hits += 1
+
+                    explosion = Explosion(mole.rect.center)
+                    all_sprites.add(explosion)
+
+                    if hits % 20 ==0:
+                        time.set_timer(MOVE_MOLE, delay)
+                        new_mole = Mole(color=(randint(100,255),randint(100,255),randint(100,255)))
+                        moles.append(new_mole)
+                        all_sprites.add(new_mole)
+
+        if (ev.type == MOVE_MOLE):
+            for mole in moles:
                 mole.flee(moles)
-                hit_sound.play()
-                hits += 1
-
-                if hits % 20 ==0:
-                    time.set_timer(MOVE_MOLE, delay)
-                    new_mole = Mole(color=(randint(100,255),randint(100,255),randint(100,255)))
-                    moles.append(new_mole)
-                    all_sprites.add(new_mole)
-
-    if (ev.type == MOVE_MOLE):
-        for mole in moles:
-            mole.flee(moles)
 
 
     screen.fill(Color(green))
@@ -73,3 +76,6 @@ while True:
     all_sprites.draw(screen)
     screen.blit(shovel.image, shovel.rect)
     display.update()
+
+
+    pygame.time.Clock().tick(60)
