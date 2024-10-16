@@ -31,10 +31,10 @@ def draw_text(text, font, color, surface, x, y):
 def settings_menu():
     global screen
     input_boxes = [
-        pygame.Rect(screen_width*(3/6), screen_height*(3/10), screen_width//32, screen_height//30),
-        pygame.Rect(screen_width*(3/6), screen_height*(4/10), screen_width//32, screen_height//30),
-        pygame.Rect(screen_width*(3/6), screen_height*(5/10), screen_width//32, screen_height//30),
-        pygame.Rect(screen_width*(3/6), screen_height*(6/10), screen_width//32, screen_height//30)
+        pygame.Rect(screen_width*(3/6), screen_height*(3/10), screen_width//32, screen_width*screen_height//(screen_width+screen_height*(screen_width-screen_height)//7)),
+        pygame.Rect(screen_width*(3/6), screen_height*(4/10), screen_width//32, screen_width*screen_height//(screen_width+screen_height*(screen_width-screen_height)//7)),
+        pygame.Rect(screen_width*(3/6), screen_height*(5/10), screen_width//32, screen_width*screen_height//(screen_width+screen_height*(screen_width-screen_height)//7)),
+        pygame.Rect(screen_width*(3/6), screen_height*(6/10), screen_width//32, screen_width*screen_height//(screen_width+screen_height*(screen_width-screen_height)//7))
     ]
     color = [beige] * 4
     active = [False] * 4
