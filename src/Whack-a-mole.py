@@ -1,14 +1,12 @@
-#header
 import sys, pygame
-
 from pygame import *
 from pygame.sprite import *
 from pygame.locals import *
-
 from settings import *
 from sprites import *
 
 pygame.init()
+font.init()
 
 # Set up the display
 screen = display.set_mode(screen_size)
@@ -24,23 +22,29 @@ screen.fill(Color("white"))
 all_sprites.draw(screen)
 display.update()
 
-#hide the mouse cursor
+# Hide the mouse cursor
 mouse.set_visible(False)
 
-
-
-#move mole
+# Move mole
 delay = 1000
 MOVE_MOLE = USEREVENT + 1
 time.set_timer(MOVE_MOLE, delay)
 
-
-#count hit
+# Count hit
 hits = 0
 
-#text
-f = font.Font(None, screen_width*screen_height//10000)
-green = (121,134,69)
+# Colors
+green = (98, 111, 71)
+beige = (254, 250, 224)
+highlight_color = (103, 70, 54)
+
+# Fonts
+f = pygame.font.Font("../assets/fonts/Lovelo Black.otf", screen_width*screen_height//(screen_width+screen_height*(screen_width-screen_height)//7))
+
+# Add the back button
+back_text = f.render("Back", True, beige)
+back_rect = back_text.get_rect(topleft=(10, screen_height - 50))
+
 # Game loop
 while True:
     for ev in event.get():
@@ -49,6 +53,8 @@ while True:
             sys.exit()
 
         if (ev.type == MOUSEBUTTONDOWN):
+            if back_rect.collidepoint(ev.pos):
+                exec(open("main.py").read())
             for mole in moles:
                 if shovel.rect.colliderect(mole.rect):
                     mole.flee(moles)
@@ -58,8 +64,8 @@ while True:
                     explosion = Explosion(mole.rect.center)
                     all_sprites.add(explosion)
 
-                    if hits % 20 ==0:
-                        time.set_timer(MOVE_MOLE, delay)
+                    if hits % 20 == 0:
+                        time.set_timer(MOVE_MOLE, delay-200)
                         new_mole = Mole(color=(randint(100,255),randint(100,255),randint(100,255)))
                         moles.append(new_mole)
                         all_sprites.add(new_mole)
@@ -68,14 +74,15 @@ while True:
             for mole in moles:
                 mole.flee(moles)
 
-
-    screen.fill(Color(green))
-    screen.blit(f.render("Hits = " + str(hits), False, (0,0,0)), (screen_width//2, 0))
+    screen.fill(green)
+    back_color = highlight_color if back_rect.collidepoint(pygame.mouse.get_pos()) else beige
+    back_text = f.render("Back", True, back_color)
+    screen.blit(back_text, back_rect)
+    screen.blit(f.render("Hits = " + str(hits), False, beige), (screen_width//2, 0))
 
     all_sprites.update()
     all_sprites.draw(screen)
     screen.blit(shovel.image, shovel.rect)
     display.update()
-
 
     pygame.time.Clock().tick(60)
